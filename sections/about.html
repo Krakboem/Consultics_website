@@ -1,1 +1,118 @@
+<!-- WordPress equivalent: template-parts/about.php -->
 
+  <section id="about" style="
+    background: #1a1a1a;
+    padding: 100px 0 120px;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    position: relative;
+    overflow: hidden;
+  ">
+    <canvas id="bgCanvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 52px; position: relative; z-index: 1;">
+
+      <!-- ABOUT US label -->
+      <p style="
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.35);
+        margin-bottom: 36px;
+        font-weight: 500;
+      ">About Us</p>
+
+      <!-- Main grid: title + body left, canvas right — aligned top -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;">
+
+        <!-- Left: title + body text -->
+        <div>
+          <h2 style="
+            font-size: clamp(1.8rem, 3.0vw, 2.6rem);
+            font-weight: 700;
+            line-height: 1.10;
+            letter-spacing: -0.025em;
+            color: #ffffff;
+            border-bottom: 2px solid rgba(255,255,255,0.15);
+            padding-bottom: 24px;
+            margin-bottom: 36px;
+          ">Accelerating Sustainable<br>Digital Change.</h2>
+
+          <div style="padding-left: 48px;">
+            <p style="
+              font-size: 18px;
+              line-height: 1.75;
+              color: rgba(255,255,255,0.60);
+              font-weight: 400;
+            ">
+              Consultics is the specialist consultancy accelerating digital product development.
+              We connect exceptional people with high-impact projects, securing strategic placements,
+              with a primary focus on the financial sector.
+            </p>
+            <p style="
+              font-size: 18px;
+              line-height: 1.75;
+              color: rgba(255,255,255,0.60);
+              font-weight: 400;
+              margin-top: 28px;
+            ">
+              By bringing decisive clarity to complex challenges, we empower our teams to design
+              and implement effective, measurable solutions across the entire development lifecycle.
+            </p>
+          </div>
+        </div>
+
+        <!-- Right: network canvas -->
+        <div style="position: relative; min-height: 460px;">
+          <canvas id="aboutCanvas" style="
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            border-radius: 10px;
+            display: block;
+          "></canvas>
+        </div>
+
+      </div>
+
+      <!-- Pull-quote -->
+      <div style="
+        margin-top: 64px;
+        padding-top: 48px;
+        border-top: 1px solid rgba(255,255,255,0.10);
+        display: flex;
+        align-items: center;
+        gap: 32px;
+        position: relative;
+        z-index: 1;
+      ">
+        <!-- Large decorative quote mark -->
+        <span style="
+          font-size: 7rem;
+          line-height: 0.6;
+          color: rgba(255,255,255,0.08);
+          font-family: Georgia, serif;
+          flex-shrink: 0;
+          margin-top: 12px;
+          user-select: none;
+        ">&ldquo;</span>
+
+        <div>
+          <p style="
+            font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: #ffffff;
+            max-width: 780px;
+            margin-bottom: 20px;
+          ">From Clarity to Solutions.</p>
+          <p style="
+            font-size: 13px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.30);
+            font-weight: 500;
+          ">— The Consultics Approach</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
