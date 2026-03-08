@@ -39,6 +39,36 @@
   <!-- Cloudflare email decode (injected by Cloudflare; remove when self-hosting) -->
   <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 
-  <script src="js/main.js"></script>
+  <!-- Section loader: fetches each data-include file and injects it, then boots main.js.
+       Requires a local static server (e.g. VS Code Live Server, or:
+       python3 -m http.server 8080  →  open http://localhost:8080) -->
+  <script>
+    (function () {
+      var includes = Array.from(document.querySelectorAll('[data-include]'));
+      if (!includes.length) return;
+
+      Promise.all(
+        includes.map(function (el) {
+          return fetch(el.getAttribute('data-include'))
+            .then(function (res) {
+              if (!res.ok) throw new Error('Failed to load ' + el.getAttribute('data-include'));
+              return res.text();
+            })
+            .then(function (html) { return { el: el, html: html }; });
+        })
+      ).then(function (results) {
+        results.forEach(function (r) {
+          var tmp = document.createElement('div');
+          tmp.innerHTML = r.html;
+          r.el.replaceWith(tmp.firstElementChild || tmp);
+        });
+        var script = document.createElement('script');
+        script.src = 'js/main.js';
+        document.body.appendChild(script);
+      }).catch(function (err) {
+        console.error('[data-include] loader error:', err);
+      });
+    })();
+  </script>
 </body>
 </html>
