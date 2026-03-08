@@ -25,6 +25,7 @@
       text-align:center;
       padding: 100px 40px 120px;
       max-width: 920px;
+      width: 100%;
     ">
       <!-- Eyebrow -->
       <p style="
@@ -34,52 +35,100 @@
         display:flex; align-items:center; justify-content:center; gap:10px;
       ">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="rgba(100,180,255,0.6)" stroke-width="1.2"/><circle cx="7" cy="7" r="2" fill="rgba(100,180,255,0.6)"/></svg>
-        We&apos;re hiring
+        Get in touch
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="rgba(100,180,255,0.6)" stroke-width="1.2"/><circle cx="7" cy="7" r="2" fill="rgba(100,180,255,0.6)"/></svg>
       </p>
 
-      <!-- Headline with decorative underlines -->
+      <!-- Headline -->
       <h2 style="
         font-size: clamp(2.8rem, 7vw, 5.8rem);
         font-weight: 300;
         color: #ffffff;
         line-height: 1.12;
         letter-spacing: -0.03em;
-        margin: 0 0 60px 0;
-      ">
-        <span style="display:block; position:relative; padding-bottom:18px; margin-bottom:6px;">
-          We&apos;re looking for experts
-          <span style="display:block;position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:75%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);"></span>
-        </span>
-        <span style="display:block; position:relative; padding-bottom:18px; margin-bottom:6px; font-style:italic; font-weight:300;">
-          that want to shape
-          <span style="display:block;position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:75%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);"></span>
-        </span>
-        <span style="display:block;">
-          the future <strong style="font-weight:700;font-style:normal;">together.</strong>
-        </span>
-      </h2>
+        margin: 0 0 24px 0;
+      ">Let&rsquo;s Connect</h2>
 
-      <!-- CTA -->
-      <a href="/cdn-cgi/l/email-protection#0f666169604f6c60617c7a637b666c7c216d6a307c7a6d656a6c7b32462a3d3f786e617b2a3d3f7b602a3d3f656066612a3d3f4c60617c7a637b666c7c" style="
-          display:inline-flex; align-items:center; gap:12px;
-          background:#ffffff; color:#1a1a1a;
-          font-family:'DM Sans',sans-serif;
-          font-size:15px; font-weight:600; letter-spacing:0.01em;
-          padding:16px 40px; border-radius:50px;
-          text-decoration:none;
-          transition:background 0.25s, transform 0.2s, box-shadow 0.25s;
-          box-shadow:0 4px 24px rgba(0,0,0,0.35);
-        " onmouseover="this.style.background='#f0f4ff';this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 32px rgba(0,0,0,0.45)';" onmouseout="this.style.background='#ffffff';this.style.transform='translateY(0)';this.style.boxShadow='0 4px 24px rgba(0,0,0,0.35)';">
-        Get in touch
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M2 8h12M10 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </a>
+      <!-- Subtitle -->
+      <p style="
+        font-size: 16px;
+        line-height: 1.7;
+        color: rgba(255,255,255,0.45);
+        max-width: 560px;
+        margin: 0 auto 56px;
+      ">Whether you&rsquo;re looking to join us or need our support &mdash; we&rsquo;d love to hear from you.</p>
 
-      <p style="margin-top:28px;font-size:14px;color:rgba(255,255,255,0.3);letter-spacing:0.02em;">
-        Reach out at <span style="color:rgba(255,255,255,0.5);"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0b62656d644b686465787e677f62687825696e">[email&#160;protected]</a></span>
-      </p>
+      <!-- Contact form -->
+      <form style="text-align: left; max-width: 640px; margin: 0 auto;">
+
+        <!-- Row 1: Name + Company -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+          <div>
+            <label style="display:block; font-size:12px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:8px;">Your name</label>
+            <input type="text" name="name" placeholder="Jane Smith" style="
+              width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12);
+              border-radius:8px; padding:14px 16px; font-size:15px; font-family:'DM Sans',sans-serif;
+              color:#fff; outline:none; transition:border-color 0.2s;
+            " onfocus="this.style.borderColor='rgba(100,180,255,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'">
+          </div>
+          <div>
+            <label style="display:block; font-size:12px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:8px;">Company name</label>
+            <input type="text" name="company" placeholder="Acme Corp" style="
+              width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12);
+              border-radius:8px; padding:14px 16px; font-size:15px; font-family:'DM Sans',sans-serif;
+              color:#fff; outline:none; transition:border-color 0.2s;
+            " onfocus="this.style.borderColor='rgba(100,180,255,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'">
+          </div>
+        </div>
+
+        <!-- Row 2: Email + Phone -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+          <div>
+            <label style="display:block; font-size:12px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:8px;">Email address</label>
+            <input type="email" name="email" placeholder="jane@example.com" style="
+              width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12);
+              border-radius:8px; padding:14px 16px; font-size:15px; font-family:'DM Sans',sans-serif;
+              color:#fff; outline:none; transition:border-color 0.2s;
+            " onfocus="this.style.borderColor='rgba(100,180,255,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'">
+          </div>
+          <div>
+            <label style="display:block; font-size:12px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:8px;">Phone number <span style="color:rgba(255,255,255,0.2); font-weight:400; text-transform:none; letter-spacing:0;">(optional)</span></label>
+            <input type="tel" name="phone" placeholder="+32 400 000 000" style="
+              width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12);
+              border-radius:8px; padding:14px 16px; font-size:15px; font-family:'DM Sans',sans-serif;
+              color:#fff; outline:none; transition:border-color 0.2s;
+            " onfocus="this.style.borderColor='rgba(100,180,255,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'">
+          </div>
+        </div>
+
+        <!-- Row 3: Message -->
+        <div style="margin-bottom:28px;">
+          <label style="display:block; font-size:12px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:8px;">Message</label>
+          <textarea name="message" rows="5" placeholder="Tell us about your project or opportunity..." style="
+            width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12);
+            border-radius:8px; padding:14px 16px; font-size:15px; font-family:'DM Sans',sans-serif;
+            color:#fff; outline:none; resize:vertical; transition:border-color 0.2s;
+          " onfocus="this.style.borderColor='rgba(100,180,255,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'"></textarea>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" style="
+          display:inline-flex; align-items:center; gap:10px;
+          background:rgba(100,180,255,0.15); color:#fff;
+          border:1px solid rgba(100,180,255,0.4);
+          font-family:'DM Sans',sans-serif; font-size:15px; font-weight:600;
+          padding:16px 40px; border-radius:50px; cursor:pointer;
+          transition:background 0.25s, border-color 0.25s, transform 0.2s;
+        "
+        onmouseover="this.style.background='rgba(100,180,255,0.28)';this.style.borderColor='rgba(100,180,255,0.7)';this.style.transform='translateY(-2px)'"
+        onmouseout="this.style.background='rgba(100,180,255,0.15)';this.style.borderColor='rgba(100,180,255,0.4)';this.style.transform='translateY(0)'">
+          Send message
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M2 8h12M10 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+      </form>
     </div>
   </div>
 
