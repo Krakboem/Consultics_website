@@ -851,3 +851,39 @@ window.addEventListener('load', function() {
   }
   initJoin();
 })();
+
+
+// ── JOBS SECTION: SCROLL HIJACKING ──
+// Converts vertical wheel scroll to horizontal card scroll while the section
+// is in view. Releases control at the start (scroll up) and end (scroll down).
+(function () {
+  function initJobs() {
+    var section = document.getElementById('jobs');
+    var track   = document.querySelector('.jobs-track');
+    if (!section || !track) { setTimeout(initJobs, 100); return; }
+
+    // Hide scrollbar cross-browser
+    track.style.msOverflowStyle  = 'none';
+    track.style.scrollbarWidth   = 'none';
+
+    window.addEventListener('wheel', function (e) {
+      var rect     = section.getBoundingClientRect();
+      var inView   = rect.top <= window.innerHeight * 0.35 && rect.bottom >= window.innerHeight * 0.35;
+      if (!inView) return;
+
+      var maxScroll = track.scrollWidth - track.clientWidth;
+      if (maxScroll <= 0) return;
+
+      var atStart = track.scrollLeft <= 0;
+      var atEnd   = track.scrollLeft >= maxScroll - 1;
+
+      // Let normal scroll resume at boundaries
+      if (e.deltaY < 0 && atStart) return;
+      if (e.deltaY > 0 && atEnd)   return;
+
+      e.preventDefault();
+      track.scrollLeft += e.deltaY;
+    }, { passive: false });
+  }
+  initJobs();
+})();
