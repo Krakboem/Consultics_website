@@ -20,97 +20,127 @@
         font-weight: 500;
       ">About Us</p>
 
-      <!-- Main grid: title + body left, canvas right — aligned top -->
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;">
+      <!-- Title + body text — full width -->
+      <div>
+        <h2 style="
+          font-size: clamp(1.8rem, 3.0vw, 2.6rem);
+          font-weight: 700;
+          line-height: 1.10;
+          letter-spacing: -0.025em;
+          color: #ffffff;
+          border-bottom: 2px solid rgba(255,255,255,0.15);
+          padding-bottom: 24px;
+          margin-bottom: 36px;
+        ">Accelerating Sustainable<br>Digital Change.</h2>
 
-        <!-- Left: title + body text -->
-        <div>
-          <h2 style="
-            font-size: clamp(1.8rem, 3.0vw, 2.6rem);
-            font-weight: 700;
-            line-height: 1.10;
-            letter-spacing: -0.025em;
-            color: #ffffff;
-            border-bottom: 2px solid rgba(255,255,255,0.15);
-            padding-bottom: 24px;
-            margin-bottom: 36px;
-          ">Accelerating Sustainable<br>Digital Change.</h2>
-
-          <div style="padding-left: 48px;">
-            <p style="
-              font-size: 18px;
-              line-height: 1.75;
-              color: rgba(255,255,255,0.60);
-              font-weight: 400;
-            ">
-              Consultics is the specialist consultancy accelerating digital product development.
-              We connect exceptional people with high-impact projects, securing strategic placements,
-              with a primary focus on the financial sector.
-            </p>
-            <p style="
-              font-size: 18px;
-              line-height: 1.75;
-              color: rgba(255,255,255,0.60);
-              font-weight: 400;
-              margin-top: 28px;
-            ">
-              By bringing decisive clarity to complex challenges, we empower our teams to design
-              and implement effective, measurable solutions across the entire development lifecycle.
-            </p>
-          </div>
+        <div style="padding-left: 48px; max-width: 760px;">
+          <p style="
+            font-size: 18px;
+            line-height: 1.75;
+            color: rgba(255,255,255,0.60);
+            font-weight: 400;
+          ">
+            Consultics is the specialist consultancy accelerating digital product development.
+            We connect exceptional people with high-impact projects, securing strategic placements,
+            with a primary focus on the financial sector.
+          </p>
+          <p style="
+            font-size: 18px;
+            line-height: 1.75;
+            color: rgba(255,255,255,0.60);
+            font-weight: 400;
+            margin-top: 28px;
+          ">
+            By bringing decisive clarity to complex challenges, we empower our teams to design
+            and implement effective, measurable solutions across the entire development lifecycle.
+          </p>
         </div>
-
-        <!-- Right: network canvas -->
-        <div style="position: relative; min-height: 460px;">
-          <canvas id="aboutCanvas" style="
-            position: absolute; inset: 0;
-            width: 100%; height: 100%;
-            border-radius: 10px;
-            display: block;
-          "></canvas>
-        </div>
-
       </div>
 
-      <!-- Pull-quote -->
+      <!-- What We Stand For -->
       <div style="
-        margin-top: 64px;
-        padding-top: 48px;
+        margin-top: 80px;
+        padding-top: 64px;
         border-top: 1px solid rgba(255,255,255,0.10);
-        display: flex;
-        align-items: center;
-        gap: 32px;
-        position: relative;
-        z-index: 1;
       ">
-        <!-- Large decorative quote mark -->
-        <span style="
-          font-size: 7rem;
-          line-height: 0.6;
-          color: rgba(255,255,255,0.08);
-          font-family: Georgia, serif;
-          flex-shrink: 0;
-          margin-top: 12px;
-          user-select: none;
-        ">&ldquo;</span>
+        <h2 style="
+          font-size: clamp(2rem, 3.5vw, 3rem);
+          font-weight: 700;
+          color: #ffffff;
+          letter-spacing: -0.025em;
+          line-height: 1.1;
+          margin: 0 0 16px 0;
+        ">What We Stand For</h2>
+        <p style="
+          font-size: clamp(1.4rem, 2.5vw, 2rem);
+          font-weight: 300;
+          font-style: italic;
+          color: rgba(255,255,255,0.45);
+          letter-spacing: -0.02em;
+          margin: 0 0 48px 0;
+        ">From Clarity to Solutions.</p>
 
-        <div>
-          <p style="
-            font-size: clamp(1.8rem, 3.2vw, 2.6rem);
-            font-weight: 700;
-            line-height: 1.2;
-            letter-spacing: -0.02em;
-            color: #ffffff;
-            max-width: 780px;
-            margin-bottom: 20px;
-          ">From Clarity to Solutions.</p>
-          <p style="
-            font-size: 13px;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.30);
-            font-weight: 500;
-          ">— The Consultics Approach</p>
+        <!-- Two cards -->
+        <style>
+          .about-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+          @media (max-width: 680px) { .about-cards { grid-template-columns: 1fr; } }
+        </style>
+        <div class="about-cards">
+
+          <!-- Card: Clarity -->
+          <div style="
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 40px 36px 44px;
+          ">
+            <p style="font-size:11px;font-weight:600;letter-spacing:0.20em;text-transform:uppercase;color:rgba(100,180,255,0.6);margin:0 0 20px 0;display:flex;align-items:center;gap:10px;">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="rgba(100,180,255,0.6)" stroke-width="1.2"/><circle cx="7" cy="7" r="2" fill="rgba(100,180,255,0.6)"/></svg>
+              01
+            </p>
+            <h3 style="
+              font-size: 1.6rem;
+              font-weight: 700;
+              color: #ffffff;
+              letter-spacing: -0.02em;
+              margin: 0 0 20px 0;
+              line-height: 1.15;
+            ">Clarity</h3>
+            <p style="
+              font-size: 15px;
+              line-height: 1.80;
+              color: rgba(255,255,255,0.50);
+              margin: 0;
+            ">Clarity is our commitment to transparency and focus. We cut through complexity and uncertainty, ensuring every stakeholder has a precise understanding of the project's strategy, scope, and progress. We believe a clear plan is the first step toward a successful product.</p>
+          </div>
+
+          <!-- Card: Solutions -->
+          <div style="
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 40px 36px 44px;
+          ">
+            <p style="font-size:11px;font-weight:600;letter-spacing:0.20em;text-transform:uppercase;color:rgba(100,180,255,0.6);margin:0 0 20px 0;display:flex;align-items:center;gap:10px;">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="rgba(100,180,255,0.6)" stroke-width="1.2"/><circle cx="7" cy="7" r="2" fill="rgba(100,180,255,0.6)"/></svg>
+              02
+            </p>
+            <h3 style="
+              font-size: 1.6rem;
+              font-weight: 700;
+              color: #ffffff;
+              letter-spacing: -0.02em;
+              margin: 0 0 20px 0;
+              line-height: 1.15;
+            ">Solutions</h3>
+            <p style="
+              font-size: 15px;
+              line-height: 1.80;
+              color: rgba(255,255,255,0.50);
+              margin: 0;
+            ">We are dedicated to delivering effective and sustainable solutions. We don't just identify problems; we architect, build, and implement the answers. Our success is measured by the tangible, positive impact our work has on your business operations and digital product performance.</p>
+          </div>
+
         </div>
       </div>
 
