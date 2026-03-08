@@ -838,4 +838,16 @@ window.addEventListener('load', function() {
       // Nodes — same white-blue dots as hero
       for (var i = 0; i < jnodes.length; i++) {
         jx.beginPath();
-        jx.arc(jnodes[i].
+        jx.arc(jnodes[i].x, jnodes[i].y, jnodes[i].r, 0, Math.PI*2);
+        jx.fillStyle = 'rgba(200,230,255,0.75)';
+        jx.fill();
+      }
+      requestAnimationFrame(jDraw);
+    }
+
+    jResize();
+    jDraw();
+    window.addEventListener('resize', jResize);
+  }
+  initJoin();
+})();
