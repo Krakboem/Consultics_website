@@ -60,7 +60,9 @@
         results.forEach(function (r) {
           var tmp = document.createElement('div');
           tmp.innerHTML = r.html;
-          r.el.replaceWith(tmp.firstElementChild || tmp);
+          // Use spread so sections with multiple root elements (e.g. nav + mobile-menu)
+          // are all injected, not just the first child.
+          r.el.replaceWith.apply(r.el, Array.from(tmp.children));
         });
         var script = document.createElement('script');
         script.src = 'js/main.js';
