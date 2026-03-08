@@ -40,13 +40,20 @@
   </div>
 
   <!-- Scrolling cards track -->
+  <style>
+    .jobs-track::-webkit-scrollbar { height: 4px; }
+    .jobs-track::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 2px; }
+    .jobs-track::-webkit-scrollbar-thumb { background: rgba(100,180,255,0.4); border-radius: 2px; }
+    .jobs-track::-webkit-scrollbar-thumb:hover { background: rgba(100,180,255,0.7); }
+  </style>
+
   <div class="jobs-track" style="
     display: flex;
     overflow-x: scroll;
     gap: 20px;
-    padding: 0 52px 80px;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    padding: 0 52px 48px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(100,180,255,0.4) rgba(255,255,255,0.05);
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
   ">

@@ -853,37 +853,16 @@ window.addEventListener('load', function() {
 })();
 
 
-// ── JOBS SECTION: SCROLL HIJACKING ──
-// Converts vertical wheel scroll to horizontal card scroll while the section
-// is in view. Releases control at the start (scroll up) and end (scroll down).
+// ── JOBS SECTION: STYLED SCROLLBAR ──
+// No scroll hijacking — native horizontal scroll via a custom-styled scrollbar.
 (function () {
   function initJobs() {
-    var section = document.getElementById('jobs');
-    var track   = document.querySelector('.jobs-track');
-    if (!section || !track) { setTimeout(initJobs, 100); return; }
-
-    // Hide scrollbar cross-browser
-    track.style.msOverflowStyle  = 'none';
-    track.style.scrollbarWidth   = 'none';
-
-    window.addEventListener('wheel', function (e) {
-      var rect     = section.getBoundingClientRect();
-      var inView   = rect.top <= window.innerHeight * 0.35 && rect.bottom >= window.innerHeight * 0.35;
-      if (!inView) return;
-
-      var maxScroll = track.scrollWidth - track.clientWidth;
-      if (maxScroll <= 0) return;
-
-      var atStart = track.scrollLeft <= 0;
-      var atEnd   = track.scrollLeft >= maxScroll - 1;
-
-      // Let normal scroll resume at boundaries
-      if (e.deltaY < 0 && atStart) return;
-      if (e.deltaY > 0 && atEnd)   return;
-
-      e.preventDefault();
-      track.scrollLeft += e.deltaY;
-    }, { passive: false });
+    var track = document.querySelector('.jobs-track');
+    if (!track) { setTimeout(initJobs, 100); return; }
+    // Ensure scrollbar is visible (undo any hidden state)
+    track.style.msOverflowStyle = 'auto';
+    track.style.scrollbarWidth  = 'thin';
+    track.style.scrollbarColor  = 'rgba(100,180,255,0.4) rgba(255,255,255,0.05)';
   }
   initJobs();
 })();
