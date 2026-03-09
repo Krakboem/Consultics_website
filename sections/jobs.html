@@ -41,12 +41,12 @@
     .jobs-track::-webkit-scrollbar-thumb:hover { background: #aaa; }
   </style>
 
-  <div style="max-width: 1200px; margin: 0 auto; padding: 0 52px;">
   <div class="jobs-track" style="
     display: flex;
     overflow-x: scroll;
+    overflow-y: visible;
     gap: 20px;
-    padding-bottom: 60px;
+    padding: 0 52px 60px;
     scrollbar-width: thin;
     scrollbar-color: #888 transparent;
     -webkit-overflow-scrolling: touch;
@@ -279,13 +279,11 @@
     <div style="flex: 0 0 32px;"></div>
 
   </div>
-  </div>
 
   <!-- Perks strip -->
   <div style="
     max-width:1200px; margin:0 auto;
     padding: 80px 52px 120px;
-    border-top: 1px solid rgba(255,255,255,0.07);
     display:grid; grid-template-columns:1fr 1fr 1fr; gap:48px;
   ">
     <div>
