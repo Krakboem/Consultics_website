@@ -853,6 +853,148 @@ window.addEventListener('load', function() {
 })();
 
 
+// ── ABOUT CANVAS: URSA MINOR ──
+(function () {
+  function initAboutCanvas() {
+    var canvas = document.getElementById('aboutCanvas');
+    if (!canvas) { setTimeout(initAboutCanvas, 100); return; }
+    var ctx = canvas.getContext('2d');
+
+    function resize() {
+      canvas.width  = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    // ~55 background nodes
+    var NUM = 55;
+    var nodes = [];
+    for (var i = 0; i < NUM; i++) {
+      nodes.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        r: Math.random() * 1.2 + 0.8
+      });
+    }
+
+    // Ursa Minor — normalized [x, y]
+    var ursaBase = [
+      [0.18, 0.14], // 0 Polaris
+      [0.30, 0.26], // 1
+      [0.40, 0.40], // 2
+      [0.50, 0.47], // 3
+      [0.63, 0.38], // 4
+      [0.72, 0.52], // 5
+      [0.57, 0.61]  // 6
+    ];
+    var ursaConns = [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,3]];
+
+    // Drift per star
+    var drift = ursaBase.map(function () {
+      return { ox:0, oy:0, tx:(Math.random()-0.5)*7, ty:(Math.random()-0.5)*7, t:Math.random() };
+    });
+
+    // Cycle: 3.6s off → 1.6s fade in → 1.6s hold → 1.6s fade out
+    var OFF=3600, FIN=1600, HOLD=1600, FOUT=1600;
+    var CYCLE = OFF + FIN + HOLD + FOUT;
+    var cycleStart = performance.now();
+
+    function getAlpha(now) {
+      var t = (now - cycleStart) % CYCLE;
+      if (t < OFF)                   return 0;
+      if (t < OFF + FIN)             return (t - OFF) / FIN;
+      if (t < OFF + FIN + HOLD)      return 1;
+      if (t < CYCLE)                 return 1 - (t - OFF - FIN - HOLD) / FOUT;
+      return 0;
+    }
+
+    function draw(now) {
+      var W = canvas.width, H = canvas.height;
+      if (!W || !H) { requestAnimationFrame(draw); return; }
+      ctx.clearRect(0, 0, W, H);
+
+      // Move nodes
+      for (var i = 0; i < nodes.length; i++) {
+        var n = nodes[i];
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < 0) n.x = W; if (n.x > W) n.x = 0;
+        if (n.y < 0) n.y = H; if (n.y > H) n.y = 0;
+      }
+
+      // Background connections
+      for (var i = 0; i < nodes.length; i++) {
+        for (var j = i+1; j < nodes.length; j++) {
+          var dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y;
+          var d = Math.sqrt(dx*dx + dy*dy);
+          if (d < 100) {
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.strokeStyle = 'rgba(255,255,255,' + (0.12*(1-d/100)).toFixed(3) + ')';
+            ctx.lineWidth = 0.7;
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Background nodes
+      for (var i = 0; i < nodes.length; i++) {
+        ctx.beginPath();
+        ctx.arc(nodes[i].x, nodes[i].y, nodes[i].r, 0, Math.PI*2);
+        ctx.fillStyle = 'rgba(255,255,255,0.55)';
+        ctx.fill();
+      }
+
+      // Ursa Minor
+      var alpha = getAlpha(now);
+      if (alpha > 0) {
+        var stars = ursaBase.map(function (pos, i) {
+          var d = drift[i];
+          d.t += 0.003;
+          if (d.t >= 1) { d.t=0; d.ox=d.tx; d.oy=d.ty; d.tx=(Math.random()-0.5)*7; d.ty=(Math.random()-0.5)*7; }
+          var e = d.t*d.t*(3-2*d.t);
+          return { x: pos[0]*W + d.ox+(d.tx-d.ox)*e, y: pos[1]*H + d.oy+(d.ty-d.oy)*e };
+        });
+
+        // Lines
+        ctx.lineWidth = 1.2;
+        for (var c = 0; c < ursaConns.length; c++) {
+          var a = ursaConns[c][0], b = ursaConns[c][1];
+          ctx.beginPath();
+          ctx.moveTo(stars[a].x, stars[a].y);
+          ctx.lineTo(stars[b].x, stars[b].y);
+          ctx.strokeStyle = 'rgba(255,255,255,' + (0.55*alpha).toFixed(3) + ')';
+          ctx.stroke();
+        }
+
+        // Stars
+        for (var s = 0; s < stars.length; s++) {
+          var sx = stars[s].x, sy = stars[s].y;
+          var r = (s === 0) ? 3.5 : 2.2;
+          if (s === 0) {
+            var g = ctx.createRadialGradient(sx,sy,0,sx,sy,20);
+            g.addColorStop(0,'rgba(255,255,255,'+(0.3*alpha).toFixed(3)+')');
+            g.addColorStop(1,'rgba(255,255,255,0)');
+            ctx.beginPath(); ctx.arc(sx,sy,20,0,Math.PI*2);
+            ctx.fillStyle = g; ctx.fill();
+          }
+          ctx.beginPath();
+          ctx.arc(sx, sy, r, 0, Math.PI*2);
+          ctx.fillStyle = 'rgba(255,255,255,' + (0.85*alpha).toFixed(3) + ')';
+          ctx.fill();
+        }
+      }
+
+      requestAnimationFrame(draw);
+    }
+    requestAnimationFrame(draw);
+  }
+  initAboutCanvas();
+})();
+
 // ── JOBS SECTION: STYLED SCROLLBAR ──
 // No scroll hijacking — native horizontal scroll via a custom-styled scrollbar.
 (function () {
