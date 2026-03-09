@@ -4,7 +4,6 @@
   background: #1a1a1a;
   padding: 120px 0 0;
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  overflow: hidden;
 ">
 
   <!-- Header -->
@@ -37,18 +36,18 @@
   <!-- Scrolling cards track -->
   <style>
     .jobs-track::-webkit-scrollbar { height: 4px; }
-    .jobs-track::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 2px; }
-    .jobs-track::-webkit-scrollbar-thumb { background: rgba(220,220,220,0.35); border-radius: 2px; }
-    .jobs-track::-webkit-scrollbar-thumb:hover { background: rgba(220,220,220,0.6); }
+    .jobs-track::-webkit-scrollbar-track { background: transparent; }
+    .jobs-track::-webkit-scrollbar-thumb { background: #888; border-radius: 2px; }
+    .jobs-track::-webkit-scrollbar-thumb:hover { background: #aaa; }
   </style>
 
   <div class="jobs-track" style="
     display: flex;
     overflow-x: scroll;
     gap: 20px;
-    padding: 0 52px 48px;
+    padding: 0 52px 60px;
     scrollbar-width: thin;
-    scrollbar-color: rgba(220,220,220,0.35) rgba(255,255,255,0.05);
+    scrollbar-color: #888 transparent;
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
   ">
