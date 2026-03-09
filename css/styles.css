@@ -18,8 +18,8 @@ html { scroll-behavior: smooth; }
     }
     .nav-left { display: flex; align-items: center; gap: 28px; }
 
-    .nav-logo { display: flex; align-items: center; text-decoration: none; flex-shrink: 0; padding: 8px 4px; margin: -8px -4px; cursor: pointer; }
-    .nav-logo img { height: 15px; width: auto; display: block; pointer-events: none; }
+    .nav-logo { display: flex; align-items: center; text-decoration: none; flex-shrink: 0; cursor: pointer; }
+    .nav-logo img { height: 15px; width: auto; display: inline-block; vertical-align: middle; pointer-events: none; }
     .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
     .nav-links a {
       font-size: 14px; font-weight: 400; color: rgba(255,255,255,0.80);
