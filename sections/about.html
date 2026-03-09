@@ -20,20 +20,30 @@
         font-weight: 500;
       ">About Us</p>
 
-      <!-- Title + body text — full width -->
-      <div>
-        <h2 style="
-          font-size: clamp(1.8rem, 3.0vw, 2.6rem);
-          font-weight: 700;
-          line-height: 1.10;
-          letter-spacing: -0.025em;
-          color: #ffffff;
-          border-bottom: 2px solid rgba(255,255,255,0.15);
-          padding-bottom: 24px;
-          margin-bottom: 36px;
-        ">Accelerating Sustainable<br>Digital Change.</h2>
+      <!-- Two-column: text left, canvas right -->
+      <style>
+        .about-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+        @media (max-width: 768px) { .about-cols { grid-template-columns: 1fr; gap: 40px; } }
+        .about-canvas-col { position: relative; min-height: 420px; }
+        @media (max-width: 768px) { .about-canvas-col { min-height: 280px; } }
+      </style>
 
-        <div style="padding-left: 48px; max-width: 760px;">
+      <!-- Title spans full width -->
+      <h2 style="
+        font-size: clamp(1.8rem, 3.0vw, 2.6rem);
+        font-weight: 700;
+        line-height: 1.10;
+        letter-spacing: -0.025em;
+        color: #ffffff;
+        border-bottom: 2px solid rgba(255,255,255,0.15);
+        padding-bottom: 24px;
+        margin-bottom: 48px;
+      ">Accelerating Sustainable<br>Digital Change.</h2>
+
+      <div class="about-cols">
+
+        <!-- Left column: text -->
+        <div>
           <p style="
             font-size: 18px;
             line-height: 1.75;
@@ -54,7 +64,25 @@
             By bringing decisive clarity to complex challenges, we empower our teams to design
             and implement effective, measurable solutions across the entire development lifecycle.
           </p>
+
+          <!-- Tagline separator -->
+          <div style="border-top: 1px solid rgba(255,255,255,0.10); margin: 36px 0;"></div>
+
+          <p style="
+            font-size: 16px;
+            line-height: 1.80;
+            color: rgba(255,255,255,0.38);
+            font-style: italic;
+            font-weight: 300;
+            margin: 0;
+          ">In a world full of noise, complexity and constant change, our experts and their connections are your Ursa Minor — a steady point of guidance that helps you find the right direction and move forward with confidence.</p>
         </div>
+
+        <!-- Right column: Ursa Minor canvas -->
+        <div class="about-canvas-col">
+          <canvas id="ursaCanvas" style="width:100%;height:100%;position:absolute;inset:0;display:block;"></canvas>
+        </div>
+
       </div>
 
       <!-- What We Stand For -->
@@ -138,3 +166,172 @@
 
     </div>
   </section>
+
+  <script>
+  (function () {
+    function initUrsa() {
+      var canvas = document.getElementById('ursaCanvas');
+      if (!canvas) { setTimeout(initUrsa, 100); return; }
+      var parent = canvas.parentElement;
+      var ctx = canvas.getContext('2d');
+
+      function resize() {
+        canvas.width  = parent.offsetWidth;
+        canvas.height = parent.offsetHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      // ~55 background nodes
+      var NUM = 55;
+      var nodes = [];
+      for (var i = 0; i < NUM; i++) {
+        nodes.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vx: (Math.random() - 0.5) * 0.4,
+          vy: (Math.random() - 0.5) * 0.4,
+          r: Math.random() * 1.5 + 1
+        });
+      }
+
+      // Ursa Minor (Little Dipper) — normalized positions
+      var ursaBase = [
+        [0.18, 0.14], // 0 Polaris
+        [0.30, 0.26], // 1
+        [0.40, 0.40], // 2
+        [0.50, 0.47], // 3 bowl corner
+        [0.63, 0.38], // 4
+        [0.72, 0.52], // 5
+        [0.57, 0.61]  // 6
+      ];
+      var ursaConns = [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,3]];
+
+      // Drift state for each ursa star
+      var ursaDrift = ursaBase.map(function() {
+        return {
+          ox: (Math.random()-0.5)*7,
+          oy: (Math.random()-0.5)*7,
+          tx: (Math.random()-0.5)*7,
+          ty: (Math.random()-0.5)*7,
+          t: Math.random()
+        };
+      });
+
+      // Animation timing: fadein 1.6s, hold 1.6s, fadeout 1.6s, off 3.6s → cycle 8.4s ≈ 9s
+      var FADE_IN  = 1600;
+      var HOLD     = 1600;
+      var FADE_OUT = 1600;
+      var OFF      = 3600;
+      var CYCLE    = FADE_IN + HOLD + FADE_OUT + OFF;
+      var start    = performance.now();
+
+      function getUrsaAlpha(now) {
+        var t = (now - start) % CYCLE;
+        if (t < FADE_IN)                        return t / FADE_IN;
+        if (t < FADE_IN + HOLD)                 return 1;
+        if (t < FADE_IN + HOLD + FADE_OUT)      return 1 - (t - FADE_IN - HOLD) / FADE_OUT;
+        return 0;
+      }
+
+      function draw(now) {
+        if (canvas.width !== parent.offsetWidth || canvas.height !== parent.offsetHeight) resize();
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        var W = canvas.width, H = canvas.height;
+
+        // Move background nodes
+        for (var i = 0; i < nodes.length; i++) {
+          var n = nodes[i];
+          n.x += n.vx; n.y += n.vy;
+          if (n.x < 0) n.x = W; if (n.x > W) n.x = 0;
+          if (n.y < 0) n.y = H; if (n.y > H) n.y = 0;
+        }
+
+        // Draw background connections
+        for (var i = 0; i < nodes.length; i++) {
+          for (var j = i+1; j < nodes.length; j++) {
+            var dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y;
+            var dist = Math.sqrt(dx*dx + dy*dy);
+            if (dist < 100) {
+              ctx.beginPath();
+              ctx.moveTo(nodes[i].x, nodes[i].y);
+              ctx.lineTo(nodes[j].x, nodes[j].y);
+              ctx.strokeStyle = 'rgba(255,255,255,' + (0.12 * (1 - dist/100)).toFixed(3) + ')';
+              ctx.lineWidth = 0.8;
+              ctx.stroke();
+            }
+          }
+        }
+
+        // Draw background nodes
+        for (var i = 0; i < nodes.length; i++) {
+          ctx.beginPath();
+          ctx.arc(nodes[i].x, nodes[i].y, nodes[i].r, 0, Math.PI*2);
+          ctx.fillStyle = 'rgba(255,255,255,0.55)';
+          ctx.fill();
+        }
+
+        // Ursa Minor overlay
+        var alpha = getUrsaAlpha(now);
+        if (alpha > 0) {
+          // Update drift
+          var ursaStars = ursaBase.map(function(pos, i) {
+            var d = ursaDrift[i];
+            d.t += 0.004;
+            if (d.t >= 1) {
+              d.t = 0;
+              d.ox = d.tx; d.oy = d.ty;
+              d.tx = (Math.random()-0.5)*7;
+              d.ty = (Math.random()-0.5)*7;
+            }
+            var ease = d.t * d.t * (3 - 2*d.t);
+            return {
+              x: pos[0] * W + d.ox + (d.tx - d.ox) * ease,
+              y: pos[1] * H + d.oy + (d.ty - d.oy) * ease
+            };
+          });
+
+          // Draw constellation lines
+          ctx.lineWidth = 1.2;
+          for (var c = 0; c < ursaConns.length; c++) {
+            var a = ursaConns[c][0], b = ursaConns[c][1];
+            ctx.beginPath();
+            ctx.moveTo(ursaStars[a].x, ursaStars[a].y);
+            ctx.lineTo(ursaStars[b].x, ursaStars[b].y);
+            ctx.strokeStyle = 'rgba(255,255,255,' + (0.55 * alpha).toFixed(3) + ')';
+            ctx.stroke();
+          }
+
+          // Draw stars
+          for (var s = 0; s < ursaStars.length; s++) {
+            var sx = ursaStars[s].x, sy = ursaStars[s].y;
+            var isPolaris = (s === 0);
+            var starR = isPolaris ? 3.5 : 2.2;
+
+            // Polaris glow
+            if (isPolaris) {
+              var glow = ctx.createRadialGradient(sx, sy, 0, sx, sy, 18);
+              glow.addColorStop(0, 'rgba(255,255,255,' + (0.28 * alpha).toFixed(3) + ')');
+              glow.addColorStop(1, 'rgba(255,255,255,0)');
+              ctx.beginPath();
+              ctx.arc(sx, sy, 18, 0, Math.PI*2);
+              ctx.fillStyle = glow;
+              ctx.fill();
+            }
+
+            ctx.beginPath();
+            ctx.arc(sx, sy, starR, 0, Math.PI*2);
+            ctx.fillStyle = 'rgba(255,255,255,' + (0.85 * alpha).toFixed(3) + ')';
+            ctx.fill();
+          }
+        }
+
+        requestAnimationFrame(draw);
+      }
+
+      requestAnimationFrame(draw);
+    }
+    initUrsa();
+  })();
+  </script>
