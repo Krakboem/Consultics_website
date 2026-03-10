@@ -92,5 +92,24 @@ html { scroll-behavior: smooth; }
       .hero-content h1 { font-size: clamp(2.4rem, 8vw, 3.6rem); }
     }
 
+    /* ── MOBILE RESPONSIVENESS ── */
+    @media (max-width: 768px) {
+      body { font-size: 16px; }
+
+      /* Nav */
+      nav { padding: 0 16px; }
+      .nav-left { gap: 0; }
+      .nav-logo img { height: 14px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .mobile-menu { left: 0; right: 0; width: 100%; }
+
+      /* Hero */
+      .hero { margin: 6px; }
+      .hero-content { left: 20px; right: 20px; bottom: 28px; max-width: 100%; }
+      .hero-content h1 { font-size: clamp(2.2rem, 9vw, 3.2rem); }
+      .hero-content p { font-size: 14px; }
+    }
+
     /* ── SERVICE CARD HOVER ── */
     .svc-card:hover { background: rgba(255,255,255,0.055) !important; border-color: rgba(255,255,255,0.14) !important; }
