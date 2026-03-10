@@ -320,7 +320,12 @@
   </div>
 
   <!-- Perks strip -->
-  <div style="
+  <style>
+    @media (max-width: 768px) {
+      .jobs-perks { grid-template-columns: 1fr !important; padding: 48px 1.5rem 80px !important; gap: 36px !important; }
+    }
+  </style>
+  <div class="jobs-perks" style="
     max-width:1200px; margin:0 auto;
     padding: 80px 52px 120px;
     display:grid; grid-template-columns:1fr 1fr 1fr; gap:48px;

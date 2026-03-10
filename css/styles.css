@@ -124,6 +124,17 @@ html { scroll-behavior: smooth; }
       #services > div { padding: 0 1.5rem !important; }
       .svc-card > div:last-child { padding: 1.5rem !important; }
 
+      /* Jobs */
+      #jobs { padding-top: 80px !important; }
+      #jobs > div[style*="max-width"] { padding: 0 1.5rem 32px !important; }
+      .jobs-track {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        padding: 0 1.5rem 40px !important;
+      }
+      .job-card { flex: 0 0 75vw !important; }
+      #jobs > div[style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+
       /* Mission */
       #mission > div { padding: 0 1.5rem !important; }
       #mission > div > div[style*="grid-template-columns"] {
