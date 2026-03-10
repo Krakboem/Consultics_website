@@ -867,125 +867,131 @@ window.addEventListener('load', function() {
     resize();
     window.addEventListener('resize', resize);
 
-    // ~55 background nodes
-    var NUM = 55;
+    var NUM = 55, UC = 7;
+    var TARGETS = [
+      [0.18,0.14],[0.30,0.26],[0.40,0.40],[0.50,0.47],
+      [0.63,0.38],[0.72,0.52],[0.57,0.61]
+    ];
+    var CONNS = [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,3]];
+
+    // All nodes — first 7 are the constellation nodes
     var nodes = [];
     for (var i = 0; i < NUM; i++) {
+      var W0 = canvas.width || 420, H0 = canvas.height || 420;
       nodes.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        r: Math.random() * 1.2 + 0.8
+        x: Math.random() * W0, y: Math.random() * H0,
+        vx: (Math.random()-0.5)*0.4, vy: (Math.random()-0.5)*0.4,
+        r: Math.random()*1.2+0.8,
+        sx:0, sy:0, tx:0, ty:0  // lerp start / target
       });
     }
 
-    // Ursa Minor — normalized [x, y]
-    var ursaBase = [
-      [0.18, 0.14], // 0 Polaris
-      [0.30, 0.26], // 1
-      [0.40, 0.40], // 2
-      [0.50, 0.47], // 3
-      [0.63, 0.38], // 4
-      [0.72, 0.52], // 5
-      [0.57, 0.61]  // 6
-    ];
-    var ursaConns = [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,3]];
+    // State machine
+    var S_NORMAL=0, S_LERP_IN=1, S_HOLD=2, S_LERP_OUT=3;
+    var OFF=3000, LERP=2000, HOLD=2000;
+    var state = S_NORMAL, stateStart = performance.now(), cycleStart = performance.now();
 
-    // Drift per star
-    var drift = ursaBase.map(function () {
-      return { ox:0, oy:0, tx:(Math.random()-0.5)*7, ty:(Math.random()-0.5)*7, t:Math.random() };
-    });
+    function ease(t) { return t*t*(3-2*t); }
 
-    // Cycle: 3.6s off → 1.6s fade in → 1.6s hold → 1.6s fade out
-    var OFF=3600, FIN=1600, HOLD=1600, FOUT=1600;
-    var CYCLE = OFF + FIN + HOLD + FOUT;
-    var cycleStart = performance.now();
+    function beginLerpIn(now) {
+      var W=canvas.width, H=canvas.height;
+      for (var i=0; i<UC; i++) {
+        nodes[i].sx = nodes[i].x; nodes[i].sy = nodes[i].y;
+        nodes[i].tx = TARGETS[i][0]*W; nodes[i].ty = TARGETS[i][1]*H;
+      }
+      state = S_LERP_IN; stateStart = now;
+    }
 
-    function getAlpha(now) {
-      var t = (now - cycleStart) % CYCLE;
-      if (t < OFF)                   return 0;
-      if (t < OFF + FIN)             return (t - OFF) / FIN;
-      if (t < OFF + FIN + HOLD)      return 1;
-      if (t < CYCLE)                 return 1 - (t - OFF - FIN - HOLD) / FOUT;
-      return 0;
+    function beginLerpOut(now) {
+      var W=canvas.width, H=canvas.height;
+      for (var i=0; i<UC; i++) {
+        nodes[i].sx = nodes[i].x; nodes[i].sy = nodes[i].y;
+        nodes[i].tx = Math.random()*W; nodes[i].ty = Math.random()*H;
+        nodes[i].vx = (Math.random()-0.5)*0.4; nodes[i].vy = (Math.random()-0.5)*0.4;
+      }
+      state = S_LERP_OUT; stateStart = now;
     }
 
     function draw(now) {
-      var W = canvas.width, H = canvas.height;
-      if (!W || !H) { requestAnimationFrame(draw); return; }
-      ctx.clearRect(0, 0, W, H);
+      var W=canvas.width, H=canvas.height;
+      if (!W||!H) { requestAnimationFrame(draw); return; }
+      var el = now - stateStart;
 
-      // Move nodes
-      for (var i = 0; i < nodes.length; i++) {
-        var n = nodes[i];
-        n.x += n.vx; n.y += n.vy;
-        if (n.x < 0) n.x = W; if (n.x > W) n.x = 0;
-        if (n.y < 0) n.y = H; if (n.y > H) n.y = 0;
+      // Transitions
+      if (state===S_NORMAL   && now-cycleStart>=OFF)  { beginLerpIn(now); el=0; }
+      if (state===S_LERP_IN  && el>=LERP) { for(var i=0;i<UC;i++){nodes[i].x=nodes[i].tx;nodes[i].y=nodes[i].ty;} state=S_HOLD; stateStart=now; el=0; }
+      if (state===S_HOLD     && el>=HOLD) { beginLerpOut(now); el=0; }
+      if (state===S_LERP_OUT && el>=LERP) { state=S_NORMAL; cycleStart=now; stateStart=now; }
+
+      ctx.clearRect(0,0,W,H);
+
+      // Update positions
+      for (var i=0; i<NUM; i++) {
+        var n=nodes[i], isU=(i<UC);
+        if (isU && state===S_LERP_IN) {
+          var t=ease(Math.min(el/LERP,1));
+          n.x=n.sx+(n.tx-n.sx)*t; n.y=n.sy+(n.ty-n.sy)*t;
+        } else if (isU && state===S_HOLD) {
+          n.x=n.tx+Math.sin(now*0.0008+i*1.3)*2.5;
+          n.y=n.ty+Math.cos(now*0.0007+i*1.7)*2.5;
+        } else if (isU && state===S_LERP_OUT) {
+          var t=ease(Math.min(el/LERP,1));
+          n.x=n.sx+(n.tx-n.sx)*t; n.y=n.sy+(n.ty-n.sy)*t;
+        } else {
+          n.x+=n.vx; n.y+=n.vy;
+          if(n.x<0)n.x=W; if(n.x>W)n.x=0;
+          if(n.y<0)n.y=H; if(n.y>H)n.y=0;
+        }
       }
 
       // Background connections
-      for (var i = 0; i < nodes.length; i++) {
-        for (var j = i+1; j < nodes.length; j++) {
-          var dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y;
-          var d = Math.sqrt(dx*dx + dy*dy);
-          if (d < 100) {
-            ctx.beginPath();
-            ctx.moveTo(nodes[i].x, nodes[i].y);
-            ctx.lineTo(nodes[j].x, nodes[j].y);
-            ctx.strokeStyle = 'rgba(255,255,255,' + (0.12*(1-d/100)).toFixed(3) + ')';
-            ctx.lineWidth = 0.7;
-            ctx.stroke();
+      for (var i=0; i<NUM; i++) {
+        for (var j=i+1; j<NUM; j++) {
+          var dx=nodes[i].x-nodes[j].x, dy=nodes[i].y-nodes[j].y;
+          var d=Math.sqrt(dx*dx+dy*dy);
+          if (d<100) {
+            ctx.beginPath(); ctx.moveTo(nodes[i].x,nodes[i].y); ctx.lineTo(nodes[j].x,nodes[j].y);
+            ctx.strokeStyle='rgba(255,255,255,'+(0.12*(1-d/100)).toFixed(3)+')';
+            ctx.lineWidth=0.7; ctx.stroke();
           }
         }
       }
 
-      // Background nodes
-      for (var i = 0; i < nodes.length; i++) {
-        ctx.beginPath();
-        ctx.arc(nodes[i].x, nodes[i].y, nodes[i].r, 0, Math.PI*2);
-        ctx.fillStyle = 'rgba(255,255,255,0.55)';
-        ctx.fill();
-      }
+      // Constellation alpha
+      var cAlpha=0;
+      if (state===S_LERP_IN)  cAlpha=ease(Math.min(el/LERP,1));
+      if (state===S_HOLD)     cAlpha=1;
+      if (state===S_LERP_OUT) cAlpha=1-ease(Math.min(el/LERP,1));
 
-      // Ursa Minor
-      var alpha = getAlpha(now);
-      if (alpha > 0) {
-        var stars = ursaBase.map(function (pos, i) {
-          var d = drift[i];
-          d.t += 0.003;
-          if (d.t >= 1) { d.t=0; d.ox=d.tx; d.oy=d.ty; d.tx=(Math.random()-0.5)*7; d.ty=(Math.random()-0.5)*7; }
-          var e = d.t*d.t*(3-2*d.t);
-          return { x: pos[0]*W + d.ox+(d.tx-d.ox)*e, y: pos[1]*H + d.oy+(d.ty-d.oy)*e };
-        });
-
-        // Lines
-        ctx.lineWidth = 1.2;
-        for (var c = 0; c < ursaConns.length; c++) {
-          var a = ursaConns[c][0], b = ursaConns[c][1];
-          ctx.beginPath();
-          ctx.moveTo(stars[a].x, stars[a].y);
-          ctx.lineTo(stars[b].x, stars[b].y);
-          ctx.strokeStyle = 'rgba(255,255,255,' + (0.55*alpha).toFixed(3) + ')';
+      // Constellation lines
+      if (cAlpha>0) {
+        ctx.lineWidth=1.8;
+        for (var c=0; c<CONNS.length; c++) {
+          var a=CONNS[c][0], b=CONNS[c][1];
+          ctx.beginPath(); ctx.moveTo(nodes[a].x,nodes[a].y); ctx.lineTo(nodes[b].x,nodes[b].y);
+          ctx.strokeStyle='rgba(255,255,255,'+(0.85*cAlpha).toFixed(3)+')';
           ctx.stroke();
         }
+      }
 
-        // Stars
-        for (var s = 0; s < stars.length; s++) {
-          var sx = stars[s].x, sy = stars[s].y;
-          var r = (s === 0) ? 3.5 : 2.2;
-          if (s === 0) {
-            var g = ctx.createRadialGradient(sx,sy,0,sx,sy,20);
-            g.addColorStop(0,'rgba(255,255,255,'+(0.3*alpha).toFixed(3)+')');
-            g.addColorStop(1,'rgba(255,255,255,0)');
-            ctx.beginPath(); ctx.arc(sx,sy,20,0,Math.PI*2);
-            ctx.fillStyle = g; ctx.fill();
-          }
-          ctx.beginPath();
-          ctx.arc(sx, sy, r, 0, Math.PI*2);
-          ctx.fillStyle = 'rgba(255,255,255,' + (0.85*alpha).toFixed(3) + ')';
-          ctx.fill();
+      // Draw all nodes
+      for (var i=0; i<NUM; i++) {
+        var n=nodes[i], isU=(i<UC), active=isU&&cAlpha>0;
+        var r = active ? (i===0?3.5:2.5) : n.r;
+        var a = active ? (0.55+0.45*cAlpha) : 0.55;
+
+        // Polaris glow
+        if (i===0 && active) {
+          var g=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,22);
+          g.addColorStop(0,'rgba(255,255,255,'+(0.35*cAlpha).toFixed(3)+')');
+          g.addColorStop(1,'rgba(255,255,255,0)');
+          ctx.beginPath(); ctx.arc(n.x,n.y,22,0,Math.PI*2);
+          ctx.fillStyle=g; ctx.fill();
         }
+
+        ctx.beginPath(); ctx.arc(n.x,n.y,r,0,Math.PI*2);
+        ctx.fillStyle='rgba(255,255,255,'+a.toFixed(3)+')';
+        ctx.fill();
       }
 
       requestAnimationFrame(draw);
