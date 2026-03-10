@@ -106,9 +106,10 @@ html { scroll-behavior: smooth; }
 
       /* Hero */
       .hero { margin: 6px; }
-      .hero-content { left: 20px; right: 20px; bottom: 28px; max-width: 100%; }
-      .hero-content h1 { font-size: clamp(2.2rem, 9vw, 3.2rem); }
-      .hero-content p { font-size: 14px; }
+      .hero-content { left: 0; right: 0; bottom: 0; max-width: 100%; padding: 2rem 1.5rem; }
+      .hero-content h1 { font-size: 2.2rem; }
+      .hero-content p { font-size: 1rem; }
+      #networkCanvas { position: absolute; inset: 0; width: 100%; height: 100%; }
     }
 
     /* ── SERVICE CARD HOVER ── */
