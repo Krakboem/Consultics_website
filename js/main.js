@@ -15,9 +15,10 @@
     const ctx    = canvas.getContext('2d');
     let W, H, nodes, stars;
 
-    const NODE_COUNT  = 110;
+    const isMobile    = window.innerWidth < 768;
+    const NODE_COUNT  = isMobile ? 40 : 110;
     const STAR_COUNT  = 60;
-    const MAX_DIST    = 250;
+    const MAX_DIST    = isMobile ? 150 : 250;
     const SPEED       = 0.22;
 
     // ── New-connection flash state ──
@@ -771,6 +772,76 @@ window.addEventListener('load', function() {
 })();
 
 
+// ── EXPERTISE CANVAS ──
+(function() {
+  function initExpertiseCanvas() {
+    var ec = document.getElementById('expertiseCanvas');
+    if (!ec) { setTimeout(initExpertiseCanvas, 100); return; }
+    var ex = ec.getContext('2d');
+    var EW, EH, enodes = [];
+    var E_COUNT = 70, E_DIST = 220, E_SPEED = 0.14;
+
+    function eResize() {
+      EW = ec.width = ec.offsetWidth;
+      EH = ec.height = ec.offsetHeight;
+      enodes = [];
+      for (var i = 0; i < E_COUNT; i++) {
+        enodes.push({
+          x: Math.random() * EW,
+          y: Math.random() * EH,
+          vx: (Math.random() - 0.5) * E_SPEED,
+          vy: (Math.random() - 0.5) * E_SPEED,
+          r: Math.random() * 1.4 + 0.5
+        });
+      }
+    }
+
+    function eDraw() {
+      ex.clearRect(0, 0, EW, EH);
+      for (var i = 0; i < enodes.length; i++) {
+        enodes[i].x += enodes[i].vx;
+        enodes[i].y += enodes[i].vy;
+        if (enodes[i].x < 0 || enodes[i].x > EW) enodes[i].vx *= -1;
+        if (enodes[i].y < 0 || enodes[i].y > EH) enodes[i].vy *= -1;
+      }
+      // Blue-tinted gradient connections
+      for (var i = 0; i < enodes.length; i++) {
+        for (var j = i + 1; j < enodes.length; j++) {
+          var dx = enodes[i].x - enodes[j].x;
+          var dy = enodes[i].y - enodes[j].y;
+          var d = Math.sqrt(dx*dx + dy*dy);
+          if (d < E_DIST) {
+            var fade = (1 - d / E_DIST);
+            var g = ex.createLinearGradient(enodes[i].x, enodes[i].y, enodes[j].x, enodes[j].y);
+            g.addColorStop(0, 'rgba(100,180,255,' + (fade * 0.55).toFixed(3) + ')');
+            g.addColorStop(1, 'rgba(60,120,230,' + (fade * 0.28).toFixed(3) + ')');
+            ex.beginPath();
+            ex.moveTo(enodes[i].x, enodes[i].y);
+            ex.lineTo(enodes[j].x, enodes[j].y);
+            ex.strokeStyle = g;
+            ex.lineWidth = 0.9;
+            ex.stroke();
+          }
+        }
+      }
+      // Nodes
+      for (var i = 0; i < enodes.length; i++) {
+        ex.beginPath();
+        ex.arc(enodes[i].x, enodes[i].y, enodes[i].r, 0, Math.PI*2);
+        ex.fillStyle = 'rgba(180,220,255,0.70)';
+        ex.fill();
+      }
+      requestAnimationFrame(eDraw);
+    }
+
+    eResize();
+    eDraw();
+    window.addEventListener('resize', eResize);
+  }
+  initExpertiseCanvas();
+})();
+
+
 // ── JOIN US CANVAS ──
 // ── Join Us canvas: hero-style network — same node count, speed, colors, gradient lines ──
 // No background fill: section bg is #1a1a1a, same as rest of site
@@ -780,7 +851,8 @@ window.addEventListener('load', function() {
     if (!jc) { setTimeout(initJoin, 100); return; }
     var jx = jc.getContext('2d');
     var JW, JH, jnodes = [];
-    var J_COUNT = 110, J_DIST = 250, J_SPEED = 0.22;
+    var isMobile = window.innerWidth < 768;
+    var J_COUNT = isMobile ? 40 : 110, J_DIST = isMobile ? 150 : 250, J_SPEED = 0.22;
 
     function jResize() {
       JW = jc.width = jc.offsetWidth;
@@ -872,125 +944,129 @@ window.addEventListener('load', function() {
       [0.18,0.14],[0.30,0.26],[0.40,0.40],[0.50,0.47],
       [0.63,0.38],[0.72,0.52],[0.57,0.61]
     ];
-    var CONNS = [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,3]];
+    var MAX_SPEED = 0.8;
 
-    // All nodes — first 7 are the constellation nodes
     var nodes = [];
-    for (var i = 0; i < NUM; i++) {
-      var W0 = canvas.width || 420, H0 = canvas.height || 420;
-      nodes.push({
-        x: Math.random() * W0, y: Math.random() * H0,
-        vx: (Math.random()-0.5)*0.4, vy: (Math.random()-0.5)*0.4,
-        r: Math.random()*1.2+0.8,
-        sx:0, sy:0, tx:0, ty:0  // lerp start / target
-      });
+    (function () {
+      var W = canvas.width || 420, H = canvas.height || 420;
+      for (var i = 0; i < NUM; i++) {
+        nodes.push({
+          x:  Math.random() * W,
+          y:  Math.random() * H,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5
+        });
+      }
+    })();
+
+    // Phase state
+    var IDLE_DUR = 12000, HOLD_DUR = 3000;
+    var steering  = false;   // true = apply steering force to constellation nodes
+    var bright    = false;
+    var brightStart = 0;
+    var idleStart = performance.now();
+
+    function startSteering() {
+      var W = canvas.width, H = canvas.height;
+      for (var i = 0; i < UC; i++) {
+        nodes[i].tx = TARGETS[i][0] * W;
+        nodes[i].ty = TARGETS[i][1] * H;
+      }
+      steering = true;
     }
 
-    // State machine
-    var S_NORMAL=0, S_LERP_IN=1, S_HOLD=2, S_LERP_OUT=3;
-    var OFF=3000, LERP=2000, HOLD=2000;
-    var state = S_NORMAL, stateStart = performance.now(), cycleStart = performance.now();
-
-    function ease(t) { return t*t*(3-2*t); }
-
-    function beginLerpIn(now) {
-      var W=canvas.width, H=canvas.height;
-      for (var i=0; i<UC; i++) {
-        nodes[i].sx = nodes[i].x; nodes[i].sy = nodes[i].y;
-        nodes[i].tx = TARGETS[i][0]*W; nodes[i].ty = TARGETS[i][1]*H;
+    function stopSteering(now) {
+      steering = false;
+      bright   = false;
+      for (var i = 0; i < UC; i++) {
+        nodes[i].tx = undefined;
+        nodes[i].ty = undefined;
       }
-      state = S_LERP_IN; stateStart = now;
-    }
-
-    function beginLerpOut(now) {
-      var W=canvas.width, H=canvas.height;
-      for (var i=0; i<UC; i++) {
-        nodes[i].sx = nodes[i].x; nodes[i].sy = nodes[i].y;
-        nodes[i].tx = Math.random()*W; nodes[i].ty = Math.random()*H;
-        nodes[i].vx = (Math.random()-0.5)*0.4; nodes[i].vy = (Math.random()-0.5)*0.4;
-      }
-      state = S_LERP_OUT; stateStart = now;
+      idleStart = now;
     }
 
     function draw(now) {
-      var W=canvas.width, H=canvas.height;
-      if (!W||!H) { requestAnimationFrame(draw); return; }
-      var el = now - stateStart;
+      var W = canvas.width, H = canvas.height;
+      if (!W || !H) { requestAnimationFrame(draw); return; }
 
-      // Transitions
-      if (state===S_NORMAL   && now-cycleStart>=OFF)  { beginLerpIn(now); el=0; }
-      if (state===S_LERP_IN  && el>=LERP) { for(var i=0;i<UC;i++){nodes[i].x=nodes[i].tx;nodes[i].y=nodes[i].ty;} state=S_HOLD; stateStart=now; el=0; }
-      if (state===S_HOLD     && el>=HOLD) { beginLerpOut(now); el=0; }
-      if (state===S_LERP_OUT && el>=LERP) { state=S_NORMAL; cycleStart=now; stateStart=now; }
-
-      ctx.clearRect(0,0,W,H);
-
-      // Update positions
-      for (var i=0; i<NUM; i++) {
-        var n=nodes[i], isU=(i<UC);
-        if (isU && state===S_LERP_IN) {
-          var t=ease(Math.min(el/LERP,1));
-          n.x=n.sx+(n.tx-n.sx)*t; n.y=n.sy+(n.ty-n.sy)*t;
-        } else if (isU && state===S_HOLD) {
-          n.x=n.tx+Math.sin(now*0.0008+i*1.3)*2.5;
-          n.y=n.ty+Math.cos(now*0.0007+i*1.7)*2.5;
-        } else if (isU && state===S_LERP_OUT) {
-          var t=ease(Math.min(el/LERP,1));
-          n.x=n.sx+(n.tx-n.sx)*t; n.y=n.sy+(n.ty-n.sy)*t;
-        } else {
-          n.x+=n.vx; n.y+=n.vy;
-          if(n.x<0)n.x=W; if(n.x>W)n.x=0;
-          if(n.y<0)n.y=H; if(n.y>H)n.y=0;
-        }
+      // ── Idle → start steering ──
+      if (!steering && !bright && (now - idleStart) >= IDLE_DUR) {
+        startSteering();
       }
 
-      // Background connections
-      for (var i=0; i<NUM; i++) {
-        for (var j=i+1; j<NUM; j++) {
-          var dx=nodes[i].x-nodes[j].x, dy=nodes[i].y-nodes[j].y;
-          var d=Math.sqrt(dx*dx+dy*dy);
-          if (d<100) {
-            ctx.beginPath(); ctx.moveTo(nodes[i].x,nodes[i].y); ctx.lineTo(nodes[j].x,nodes[j].y);
-            ctx.strokeStyle='rgba(255,255,255,'+(0.12*(1-d/100)).toFixed(3)+')';
-            ctx.lineWidth=0.7; ctx.stroke();
+      // ── Update positions ──
+      for (var i = 0; i < NUM; i++) {
+        var n = nodes[i];
+
+        if (steering && i < UC) {
+          // Apply gentle steering force toward target
+          n.vx += (n.tx - n.x) * 0.0008;
+          n.vy += (n.ty - n.y) * 0.0008;
+          // Clamp speed
+          var spd = Math.sqrt(n.vx*n.vx + n.vy*n.vy);
+          if (spd > MAX_SPEED) { n.vx = n.vx/spd*MAX_SPEED; n.vy = n.vy/spd*MAX_SPEED; }
+        }
+
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < 0 || n.x > W) n.vx *= -1;
+        if (n.y < 0 || n.y > H) n.vy *= -1;
+      }
+
+      // ── Check if all 7 within 25px → go bright ──
+      if (steering && !bright) {
+        var allClose = true;
+        for (var i = 0; i < UC; i++) {
+          var ddx = nodes[i].x - nodes[i].tx;
+          var ddy = nodes[i].y - nodes[i].ty;
+          if (Math.sqrt(ddx*ddx + ddy*ddy) > 25) { allClose = false; break; }
+        }
+        if (allClose) { bright = true; brightStart = now; }
+      }
+
+      // ── Bright timeout → reset ──
+      if (bright && (now - brightStart) >= HOLD_DUR) {
+        stopSteering(now);
+      }
+
+      ctx.clearRect(0, 0, W, H);
+
+      // ── Connections ──
+      for (var i = 0; i < NUM; i++) {
+        for (var j = i + 1; j < NUM; j++) {
+          var dx = nodes[i].x - nodes[j].x;
+          var dy = nodes[i].y - nodes[j].y;
+          var d  = Math.sqrt(dx*dx + dy*dy);
+          if (d < 70) {
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+            ctx.lineWidth   = 0.7;
+            ctx.stroke();
           }
         }
       }
 
-      // Constellation alpha
-      var cAlpha=0;
-      if (state===S_LERP_IN)  cAlpha=ease(Math.min(el/LERP,1));
-      if (state===S_HOLD)     cAlpha=1;
-      if (state===S_LERP_OUT) cAlpha=1-ease(Math.min(el/LERP,1));
-
-      // Constellation lines
-      if (cAlpha>0) {
-        ctx.lineWidth=1.8;
-        for (var c=0; c<CONNS.length; c++) {
-          var a=CONNS[c][0], b=CONNS[c][1];
-          ctx.beginPath(); ctx.moveTo(nodes[a].x,nodes[a].y); ctx.lineTo(nodes[b].x,nodes[b].y);
-          ctx.strokeStyle='rgba(255,255,255,'+(0.85*cAlpha).toFixed(3)+')';
+      // ── Constellation lines (predefined, distance-independent) ──
+      if (bright) {
+        var CONNS = [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,3]];
+        ctx.strokeStyle = 'rgba(255,255,255,0.65)';
+        ctx.lineWidth   = 1.2;
+        for (var c = 0; c < CONNS.length; c++) {
+          var a = CONNS[c][0], b = CONNS[c][1];
+          ctx.beginPath();
+          ctx.moveTo(nodes[a].x, nodes[a].y);
+          ctx.lineTo(nodes[b].x, nodes[b].y);
           ctx.stroke();
         }
       }
 
-      // Draw all nodes
-      for (var i=0; i<NUM; i++) {
-        var n=nodes[i], isU=(i<UC), active=isU&&cAlpha>0;
-        var r = active ? (i===0?3.5:2.5) : n.r;
-        var a = active ? (0.55+0.45*cAlpha) : 0.55;
-
-        // Polaris glow
-        if (i===0 && active) {
-          var g=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,22);
-          g.addColorStop(0,'rgba(255,255,255,'+(0.35*cAlpha).toFixed(3)+')');
-          g.addColorStop(1,'rgba(255,255,255,0)');
-          ctx.beginPath(); ctx.arc(n.x,n.y,22,0,Math.PI*2);
-          ctx.fillStyle=g; ctx.fill();
-        }
-
-        ctx.beginPath(); ctx.arc(n.x,n.y,r,0,Math.PI*2);
-        ctx.fillStyle='rgba(255,255,255,'+a.toFixed(3)+')';
+      // ── Nodes ──
+      for (var i = 0; i < NUM; i++) {
+        var active = bright && i < UC;
+        ctx.beginPath();
+        ctx.arc(nodes[i].x, nodes[i].y, active ? 3 : 2, 0, Math.PI*2);
+        ctx.fillStyle = active ? 'rgba(255,255,255,1.0)' : 'rgba(255,255,255,0.6)';
         ctx.fill();
       }
 

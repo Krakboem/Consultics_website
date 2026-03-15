@@ -1,0 +1,190 @@
+<!-- WordPress equivalent: template-parts/expertise.php -->
+
+<section id="expertise" style="
+  background: #1a1a1a;
+  padding: 120px 0 140px;
+  position: relative;
+  overflow: hidden;
+  font-family: 'DM Sans', sans-serif;
+">
+  <canvas id="expertiseCanvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0.22;"></canvas>
+
+  <div style="position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 52px;">
+
+    <!-- Header row -->
+    <div style="margin-bottom:80px;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:48px;">
+      <p style="font-size:11px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:rgba(100,180,255,0.6);margin:0 0 20px 0;display:flex;align-items:center;gap:10px;">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="rgba(100,180,255,0.6)" stroke-width="1.2"/><circle cx="7" cy="7" r="2" fill="rgba(100,180,255,0.6)"/></svg>
+        Our Expertise
+      </p>
+      <h2 style="font-size:clamp(2.4rem,4.5vw,4rem);font-weight:700;color:#ffffff;margin:0 0 24px 0;line-height:1.05;letter-spacing:-0.03em;">Navigating Regulation.<br>Powering Intelligence.</h2>
+      <p style="font-size:15px;line-height:1.75;color:rgba(255,255,255,0.45);max-width:680px;margin:0;">Regulation is accelerating. In the meantime, AI is fundamentally reshaping how tomorrow's solutions will be built. Consultics operates at this convergence, helping companies navigate the new EU compliance landscape with intelligent, future-proof solutions.</p>
+    </div>
+
+    <!-- Cards -->
+    <div class="exp-grid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;">
+
+      <!-- Card 1: Regulatory Compliance -->
+      <div class="exp-card" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:background 0.35s,border-color 0.35s;cursor:default;">
+        <div style="height:230px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(255,255,255,0.06);position:relative;overflow:hidden;">
+          <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:0.2;" xmlns="http://www.w3.org/2000/svg">
+            <defs><pattern id="ep1" x="0" y="0" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="rgba(255,255,255,0.5)"/></pattern></defs>
+            <rect width="100%" height="100%" fill="url(#ep1)"/>
+          </svg>
+          <!-- Shield with checkmark -->
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none" style="position:relative;z-index:1;">
+            <path d="M40 8L14 20v20c0 16.6 11.1 32.1 26 36 14.9-3.9 26-19.4 26-36V20L40 8z" stroke="white" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M28 40l8 8 16-16" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div style="padding:36px 36px 44px;flex:1;display:flex;flex-direction:column;">
+          <p style="font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin:0 0 14px 0;">01 &middot; Regulatory Compliance</p>
+          <h3 style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 16px 0;line-height:1.2;letter-spacing:-0.02em;">KYC, AML &amp; AMLR 2027</h3>
+          <p style="font-size:15px;line-height:1.75;color:rgba(255,255,255,0.5);margin:0;flex:1;">The EU Anti-Money Laundering Regulation enters force on 10 July 2027, replacing fragmented national directives with a single rulebook. We help obliged entities prepare, from gap analysis and CDD redesign to beneficial ownership transparency and AMLA readiness.</p>
+        </div>
+      </div>
+
+      <!-- Card 2: Intelligent Systems -->
+      <div class="exp-card" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:background 0.35s,border-color 0.35s;cursor:default;">
+        <div style="height:230px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(255,255,255,0.06);position:relative;overflow:hidden;">
+          <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:0.2;" xmlns="http://www.w3.org/2000/svg">
+            <defs><pattern id="ep2" x="0" y="0" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="rgba(255,255,255,0.5)"/></pattern></defs>
+            <rect width="100%" height="100%" fill="url(#ep2)"/>
+          </svg>
+          <!-- Connected nodes / neural network -->
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none" style="position:relative;z-index:1;">
+            <circle cx="40" cy="12" r="6" fill="white"/>
+            <circle cx="14" cy="44" r="6" fill="white"/>
+            <circle cx="66" cy="44" r="6" fill="white"/>
+            <circle cx="26" cy="68" r="5" stroke="white" stroke-width="2" fill="none"/>
+            <circle cx="54" cy="68" r="5" stroke="white" stroke-width="2" fill="none"/>
+            <line x1="40" y1="18" x2="14" y2="38" stroke="white" stroke-width="1.5" opacity="0.7"/>
+            <line x1="40" y1="18" x2="66" y2="38" stroke="white" stroke-width="1.5" opacity="0.7"/>
+            <line x1="14" y1="50" x2="26" y2="63" stroke="white" stroke-width="1.5" opacity="0.7"/>
+            <line x1="66" y1="50" x2="54" y2="63" stroke="white" stroke-width="1.5" opacity="0.7"/>
+            <line x1="14" y1="44" x2="66" y2="44" stroke="white" stroke-width="1" opacity="0.3" stroke-dasharray="4 3"/>
+          </svg>
+        </div>
+        <div style="padding:36px 36px 44px;flex:1;display:flex;flex-direction:column;">
+          <p style="font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin:0 0 14px 0;">02 &middot; Intelligent Systems</p>
+          <h3 style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 16px 0;line-height:1.2;letter-spacing:-0.02em;">AI &amp; ML for Compliance</h3>
+          <p style="font-size:15px;line-height:1.75;color:rgba(255,255,255,0.5);margin:0;flex:1;">AI is not just another tool to add on top of existing processes. It is fundamentally changing how compliance workflows operate, from onboarding to ongoing monitoring. We bring the expertise to rethink these processes end to end, identifying where AI can reshape entire workflows rather than simply automating a single task. Together with our clients, we design intelligent systems for KYC orchestration, transaction monitoring, sanctions screening, and document processing.</p>
+        </div>
+      </div>
+
+      <!-- Card 3: Digital Identity -->
+      <div class="exp-card" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:background 0.35s,border-color 0.35s;cursor:default;">
+        <div style="height:230px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(255,255,255,0.06);position:relative;overflow:hidden;">
+          <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:0.2;" xmlns="http://www.w3.org/2000/svg">
+            <defs><pattern id="ep3" x="0" y="0" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="rgba(255,255,255,0.5)"/></pattern></defs>
+            <rect width="100%" height="100%" fill="url(#ep3)"/>
+          </svg>
+          <!-- ID card with person silhouette and EU stars hint -->
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none" style="position:relative;z-index:1;">
+            <rect x="6" y="20" width="68" height="44" rx="5" stroke="white" stroke-width="2.5"/>
+            <circle cx="26" cy="38" r="9" fill="white"/>
+            <path d="M14 60c0-7.7 5.4-12 12-12s12 4.3 12 12" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="46" y1="34" x2="68" y2="34" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+            <line x1="46" y1="42" x2="62" y2="42" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+            <!-- EU stars hint (small dots in arc) -->
+            <circle cx="55" cy="24" r="1.2" fill="rgba(255,255,255,0.6)"/>
+            <circle cx="59" cy="22" r="1.2" fill="rgba(255,255,255,0.6)"/>
+            <circle cx="63" cy="24" r="1.2" fill="rgba(255,255,255,0.6)"/>
+            <circle cx="65" cy="28" r="1.2" fill="rgba(255,255,255,0.4)"/>
+          </svg>
+        </div>
+        <div style="padding:36px 36px 44px;flex:1;display:flex;flex-direction:column;">
+          <p style="font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin:0 0 14px 0;">03 &middot; Digital Identity</p>
+          <h3 style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 16px 0;line-height:1.2;letter-spacing:-0.02em;">eIDAS 2.0 &amp; EUDI Wallet</h3>
+          <p style="font-size:15px;line-height:1.75;color:rgba(255,255,255,0.5);margin:0;flex:1;">By late 2026, every EU Member State must offer a digital identity wallet to citizens. Companies in the financial sector will need to accept them from 2027 onward. We actively follow these developments and their implications for KYC and onboarding flows, so we can advise our clients on what is coming and how to stay ahead as the new trust framework takes shape.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Banner -->
+    <div class="exp-banner" style="margin-top:48px;background:rgba(100,180,255,0.06);border:1px solid rgba(100,180,255,0.18);border-radius:14px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;gap:0;">
+
+      <!-- Banner left -->
+      <div style="padding:52px 52px 52px 52px;border-right:1px solid rgba(100,180,255,0.14);display:flex;flex-direction:column;justify-content:center;">
+        <p style="font-size:11px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:rgba(100,180,255,0.6);margin:0 0 18px 0;">Preparing for What&rsquo;s Next</p>
+        <h3 style="font-size:clamp(1.5rem,2.5vw,2.1rem);font-weight:700;color:#fff;margin:0 0 20px 0;line-height:1.15;letter-spacing:-0.025em;">Compliance Ready,<br>Intelligence Driven.</h3>
+        <p style="font-size:15px;line-height:1.75;color:rgba(255,255,255,0.5);margin:0;">The AMLR and eIDAS 2.0 converge on a single reality: identity verification, risk monitoring, and due diligence must become smarter, faster, and harmonised across the EU. Consultics combines deep regulatory knowledge with hands-on AI/ML expertise to support our clients in becoming not just compliant, but future ready.</p>
+      </div>
+
+      <!-- Banner right: timeline -->
+      <div style="padding:52px 52px 52px 52px;display:flex;flex-direction:column;justify-content:center;gap:0;">
+        <p style="font-size:11px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:rgba(100,180,255,0.6);margin:0 0 32px 0;">Key Dates</p>
+
+        <!-- Timeline item 1 -->
+        <div style="display:flex;gap:20px;margin-bottom:28px;align-items:flex-start;">
+          <div style="flex-shrink:0;width:88px;padding-top:3px;">
+            <span style="font-size:12px;font-weight:700;color:rgba(100,180,255,0.9);letter-spacing:0.05em;">Dec 2026</span>
+          </div>
+          <div style="flex:1;padding-left:20px;border-left:1px solid rgba(100,180,255,0.25);">
+            <p style="font-size:14px;line-height:1.65;color:rgba(255,255,255,0.6);margin:0;">EUDI Wallets must be available to all EU citizens and residents across all Member States.</p>
+          </div>
+        </div>
+
+        <!-- Timeline item 2 -->
+        <div style="display:flex;gap:20px;margin-bottom:28px;align-items:flex-start;">
+          <div style="flex-shrink:0;width:88px;padding-top:3px;">
+            <span style="font-size:12px;font-weight:700;color:rgba(100,180,255,0.9);letter-spacing:0.05em;">Jul 2027</span>
+          </div>
+          <div style="flex:1;padding-left:20px;border-left:1px solid rgba(100,180,255,0.25);">
+            <p style="font-size:14px;line-height:1.65;color:rgba(255,255,255,0.6);margin:0;">AMLR applies directly as a single EU rulebook for CDD, UBO transparency, and SAR reporting.</p>
+          </div>
+        </div>
+
+        <!-- Timeline item 3 -->
+        <div style="display:flex;gap:20px;margin-bottom:28px;align-items:flex-start;">
+          <div style="flex-shrink:0;width:88px;padding-top:3px;">
+            <span style="font-size:12px;font-weight:700;color:rgba(100,180,255,0.9);letter-spacing:0.05em;">Dec 2027</span>
+          </div>
+          <div style="flex:1;padding-left:20px;border-left:1px solid rgba(100,180,255,0.25);">
+            <p style="font-size:14px;line-height:1.65;color:rgba(255,255,255,0.6);margin:0;">Banks and payment providers must accept EUDI Wallets for strong customer authentication.</p>
+          </div>
+        </div>
+
+        <!-- Timeline item 4 -->
+        <div style="display:flex;gap:20px;align-items:flex-start;">
+          <div style="flex-shrink:0;width:88px;padding-top:3px;">
+            <span style="font-size:12px;font-weight:700;color:rgba(100,180,255,0.9);letter-spacing:0.05em;">Jan 2028</span>
+          </div>
+          <div style="flex:1;padding-left:20px;border-left:1px solid rgba(100,180,255,0.25);">
+            <p style="font-size:14px;line-height:1.65;color:rgba(255,255,255,0.6);margin:0;">AMLA begins direct supervision of high-risk cross-border financial institutions across the EU.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Mobile responsive styles -->
+  <style>
+    @media (max-width: 900px) {
+      .exp-grid {
+        grid-template-columns: 1fr !important;
+      }
+      .exp-banner {
+        grid-template-columns: 1fr !important;
+      }
+      .exp-banner > div:first-child {
+        border-right: none !important;
+        border-bottom: 1px solid rgba(100,180,255,0.14);
+        padding: 36px 1.5rem !important;
+      }
+      .exp-banner > div:last-child {
+        padding: 36px 1.5rem !important;
+      }
+    }
+    @media (max-width: 900px) {
+      #expertise > div {
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
+      }
+    }
+  </style>
+
+</section>
