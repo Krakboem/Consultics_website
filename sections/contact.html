@@ -1,1 +1,371 @@
-<!-- Contact section removed — content moved to footer.html -->
+<!-- WordPress equivalent: template-parts/contact.php -->
+
+<section id="contact" style="
+  background: #1a1a1a;
+  padding: 120px 0 0;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  position: relative;
+  overflow: hidden;
+">
+
+  <div class="contact-container" style="max-width: 1200px; margin: 0 auto; padding: 0 52px;">
+
+    <!-- Header -->
+    <div style="margin-bottom: 72px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 48px;">
+      <p style="
+        font-size: 11px; font-weight: 600; letter-spacing: 0.22em;
+        text-transform: uppercase; color: rgba(100,180,255,0.6);
+        margin: 0 0 20px 0; display: flex; align-items: center; gap: 10px;
+      ">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="rgba(100,180,255,0.6)" stroke-width="1.2"/><circle cx="7" cy="7" r="2" fill="rgba(100,180,255,0.6)"/></svg>
+        Get In Touch
+      </p>
+      <h2 style="
+        font-size: clamp(2.4rem, 4.5vw, 4rem);
+        font-weight: 700; color: #ffffff;
+        margin: 0 0 24px 0; line-height: 1.05; letter-spacing: -0.03em;
+      ">Let&rsquo;s Start a<br>Conversation.</h2>
+      <p style="
+        font-size: 17px; line-height: 1.75;
+        color: rgba(255,255,255,0.4);
+        margin: 0; max-width: 600px;
+      ">Whether you want to work with us or join our team &mdash; we&rsquo;d love to hear from you.</p>
+    </div>
+
+    <!-- Two-column layout: form + info -->
+    <div class="contact-grid" style="
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 80px;
+      align-items: start;
+    ">
+
+      <!-- Left: Form -->
+      <div>
+        <form
+          id="contactForm"
+          action="https://formspree.io/f/mvzwvvoz"
+          method="POST"
+          style="display: flex; flex-direction: column; gap: 28px;"
+        >
+          <!-- Honeypot (spam protection) -->
+          <input type="text" name="_gotcha" style="display:none !important" tabindex="-1" autocomplete="off">
+
+          <!-- Name row -->
+          <div class="contact-name-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div>
+              <label for="contact-first" style="
+                display: block; font-size: 12px; font-weight: 600;
+                letter-spacing: 0.12em; text-transform: uppercase;
+                color: rgba(255,255,255,0.35); margin-bottom: 10px;
+              ">First name</label>
+              <input type="text" id="contact-first" name="firstName" required
+                placeholder="Jane"
+                style="
+                  width: 100%; padding: 14px 18px;
+                  background: rgba(255,255,255,0.04);
+                  border: 1px solid rgba(255,255,255,0.10);
+                  border-radius: 10px; color: #fff;
+                  font-family: 'DM Sans', sans-serif; font-size: 15px;
+                  outline: none; transition: border-color 0.2s, background 0.2s;
+                "
+                onfocus="this.style.borderColor='rgba(100,180,255,0.4)';this.style.background='rgba(255,255,255,0.06)'"
+                onblur="this.style.borderColor='rgba(255,255,255,0.10)';this.style.background='rgba(255,255,255,0.04)'"
+              >
+            </div>
+            <div>
+              <label for="contact-last" style="
+                display: block; font-size: 12px; font-weight: 600;
+                letter-spacing: 0.12em; text-transform: uppercase;
+                color: rgba(255,255,255,0.35); margin-bottom: 10px;
+              ">Last name</label>
+              <input type="text" id="contact-last" name="lastName" required
+                placeholder="Doe"
+                style="
+                  width: 100%; padding: 14px 18px;
+                  background: rgba(255,255,255,0.04);
+                  border: 1px solid rgba(255,255,255,0.10);
+                  border-radius: 10px; color: #fff;
+                  font-family: 'DM Sans', sans-serif; font-size: 15px;
+                  outline: none; transition: border-color 0.2s, background 0.2s;
+                "
+                onfocus="this.style.borderColor='rgba(100,180,255,0.4)';this.style.background='rgba(255,255,255,0.06)'"
+                onblur="this.style.borderColor='rgba(255,255,255,0.10)';this.style.background='rgba(255,255,255,0.04)'"
+              >
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label for="contact-email" style="
+              display: block; font-size: 12px; font-weight: 600;
+              letter-spacing: 0.12em; text-transform: uppercase;
+              color: rgba(255,255,255,0.35); margin-bottom: 10px;
+            ">Email address</label>
+            <input type="email" id="contact-email" name="email" required
+              placeholder="jane@company.com"
+              style="
+                width: 100%; padding: 14px 18px;
+                background: rgba(255,255,255,0.04);
+                border: 1px solid rgba(255,255,255,0.10);
+                border-radius: 10px; color: #fff;
+                font-family: 'DM Sans', sans-serif; font-size: 15px;
+                outline: none; transition: border-color 0.2s, background 0.2s;
+              "
+              onfocus="this.style.borderColor='rgba(100,180,255,0.4)';this.style.background='rgba(255,255,255,0.06)'"
+              onblur="this.style.borderColor='rgba(255,255,255,0.10)';this.style.background='rgba(255,255,255,0.04)'"
+            >
+          </div>
+
+          <!-- Company -->
+          <div>
+            <label for="contact-company" style="
+              display: block; font-size: 12px; font-weight: 600;
+              letter-spacing: 0.12em; text-transform: uppercase;
+              color: rgba(255,255,255,0.35); margin-bottom: 10px;
+            ">Company <span style="font-weight:400;text-transform:none;letter-spacing:0;opacity:0.6;">(optional)</span></label>
+            <input type="text" id="contact-company" name="company"
+              placeholder="Acme Inc."
+              style="
+                width: 100%; padding: 14px 18px;
+                background: rgba(255,255,255,0.04);
+                border: 1px solid rgba(255,255,255,0.10);
+                border-radius: 10px; color: #fff;
+                font-family: 'DM Sans', sans-serif; font-size: 15px;
+                outline: none; transition: border-color 0.2s, background 0.2s;
+              "
+              onfocus="this.style.borderColor='rgba(100,180,255,0.4)';this.style.background='rgba(255,255,255,0.06)'"
+              onblur="this.style.borderColor='rgba(255,255,255,0.10)';this.style.background='rgba(255,255,255,0.04)'"
+            >
+          </div>
+
+          <!-- Message -->
+          <div>
+            <label for="contact-message" style="
+              display: block; font-size: 12px; font-weight: 600;
+              letter-spacing: 0.12em; text-transform: uppercase;
+              color: rgba(255,255,255,0.35); margin-bottom: 10px;
+            ">Message</label>
+            <textarea id="contact-message" name="message" required rows="5"
+              placeholder="Tell us about your project or question..."
+              style="
+                width: 100%; padding: 14px 18px;
+                background: rgba(255,255,255,0.04);
+                border: 1px solid rgba(255,255,255,0.10);
+                border-radius: 10px; color: #fff;
+                font-family: 'DM Sans', sans-serif; font-size: 15px;
+                outline: none; transition: border-color 0.2s, background 0.2s;
+                resize: vertical; min-height: 120px;
+              "
+              onfocus="this.style.borderColor='rgba(100,180,255,0.4)';this.style.background='rgba(255,255,255,0.06)'"
+              onblur="this.style.borderColor='rgba(255,255,255,0.10)';this.style.background='rgba(255,255,255,0.04)'"
+            ></textarea>
+          </div>
+
+          <!-- Submit button + status -->
+          <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+            <button type="submit" id="contactSubmit" style="
+              display: inline-flex; align-items: center; gap: 8px;
+              background: rgba(100,180,255,0.15); color: #fff;
+              border: 1px solid rgba(100,180,255,0.40);
+              font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+              padding: 14px 32px; border-radius: 50px;
+              cursor: pointer; transition: background 0.2s, border-color 0.2s, transform 0.15s;
+            "
+              onmouseover="this.style.background='rgba(100,180,255,0.28)';this.style.borderColor='rgba(100,180,255,0.65)'"
+              onmouseout="this.style.background='rgba(100,180,255,0.15)';this.style.borderColor='rgba(100,180,255,0.40)'"
+              onmousedown="this.style.transform='scale(0.97)'"
+              onmouseup="this.style.transform='scale(1)'"
+            >
+              Send message
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <span id="contactStatus" style="
+              font-size: 14px; color: rgba(100,180,255,0.8);
+              display: none; align-items: center; gap: 6px;
+            "></span>
+          </div>
+
+          <!-- Privacy note -->
+          <p style="
+            font-size: 13px; line-height: 1.6;
+            color: rgba(255,255,255,0.25); margin-top: 4px;
+          ">By submitting this form you agree that we may process your data to respond to your inquiry. We will never share your information with third parties.</p>
+        </form>
+      </div>
+
+      <!-- Right: Contact info sidebar -->
+      <div style="padding-top: 8px;">
+
+        <!-- Direct email card -->
+        <div style="
+          background: rgba(255,255,255,0.03);
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 14px;
+          padding: 36px 32px;
+          margin-bottom: 20px;
+        ">
+          <p style="
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.18em; text-transform: uppercase;
+            color: rgba(100,180,255,0.6); margin: 0 0 18px 0;
+          ">Email us directly</p>
+          <a href="mailto:info@consultics.be" style="
+            font-size: 17px; color: #fff; text-decoration: none;
+            font-weight: 500; transition: color 0.2s;
+            display: flex; align-items: center; gap: 10px;
+          " onmouseover="this.style.color='rgba(100,180,255,0.9)'" onmouseout="this.style.color='#fff'">
+            <svg width="18" height="18" viewBox="0 0 20 20" fill="none" style="flex-shrink:0;opacity:0.5;">
+              <rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M2 6l8 5 8-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            info@consultics.be
+          </a>
+        </div>
+
+        <!-- Location card -->
+        <div style="
+          background: rgba(255,255,255,0.03);
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 14px;
+          padding: 36px 32px;
+          margin-bottom: 20px;
+        ">
+          <p style="
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.18em; text-transform: uppercase;
+            color: rgba(100,180,255,0.6); margin: 0 0 18px 0;
+          ">Based in</p>
+          <p style="
+            font-size: 17px; color: rgba(255,255,255,0.7);
+            font-weight: 400; margin: 0; line-height: 1.6;
+            display: flex; align-items: flex-start; gap: 10px;
+          ">
+            <svg width="18" height="18" viewBox="0 0 20 20" fill="none" style="flex-shrink:0;margin-top:3px;opacity:0.5;">
+              <path d="M10 2C6.69 2 4 4.69 4 8c0 5.25 6 10 6 10s6-4.75 6-10c0-3.31-2.69-6-6-6z" stroke="currentColor" stroke-width="1.5"/>
+              <circle cx="10" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            Brussels, Belgium
+          </p>
+        </div>
+
+        <!-- Response time card -->
+        <div style="
+          background: rgba(100,180,255,0.04);
+          border: 1px solid rgba(100,180,255,0.12);
+          border-radius: 14px;
+          padding: 36px 32px;
+        ">
+          <p style="
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.18em; text-transform: uppercase;
+            color: rgba(100,180,255,0.6); margin: 0 0 18px 0;
+          ">Response time</p>
+          <p style="
+            font-size: 15px; color: rgba(255,255,255,0.55);
+            font-weight: 400; margin: 0; line-height: 1.7;
+          ">We typically respond within one business day. For urgent matters, email us directly.</p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom spacing -->
+  <div style="height: 120px;"></div>
+
+  <!-- Mobile responsive styles -->
+  <style>
+    /* Contact form input placeholder styling */
+    #contactForm input::placeholder,
+    #contactForm textarea::placeholder {
+      color: rgba(255,255,255,0.22);
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    /* Select option styling */
+    #contactForm select option {
+      background: #2a2a2a;
+      color: rgba(255,255,255,0.8);
+      padding: 8px;
+    }
+
+    /* Focus-visible for keyboard accessibility */
+    #contactForm input:focus-visible,
+    #contactForm textarea:focus-visible,
+    #contactForm select:focus-visible {
+      border-color: rgba(100,180,255,0.5);
+      outline: 2px solid rgba(100,180,255,0.2);
+      outline-offset: 2px;
+    }
+
+    #contactSubmit:focus-visible {
+      outline: 2px solid rgba(100,180,255,0.5);
+      outline-offset: 3px;
+    }
+
+    @media (max-width: 900px) {
+      .contact-grid {
+        grid-template-columns: 1fr !important;
+        gap: 48px !important;
+      }
+      .contact-container {
+        padding: 0 1.5rem !important;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .contact-name-row {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
+
+  <!-- Form submission handler (progressive enhancement over Formspree) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var form = document.getElementById('contactForm');
+      if (!form) return;
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var btn = document.getElementById('contactSubmit');
+        var status = document.getElementById('contactStatus');
+        var originalText = btn.innerHTML;
+
+        // Loading state
+        btn.disabled = true;
+        btn.style.opacity = '0.6';
+        btn.style.cursor = 'wait';
+        btn.innerHTML = 'Sending\u2026';
+        status.style.display = 'none';
+
+        fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        }).then(function(response) {
+          if (response.ok) {
+            status.textContent = '\u2713 Message sent successfully!';
+            status.style.color = 'rgba(100,200,130,0.9)';
+            status.style.display = 'inline-flex';
+            form.reset();
+          } else {
+            throw new Error('Form submission failed');
+          }
+        }).catch(function() {
+          status.textContent = 'Something went wrong. Please try emailing us directly.';
+          status.style.color = 'rgba(255,140,140,0.9)';
+          status.style.display = 'inline-flex';
+        }).finally(function() {
+          btn.disabled = false;
+          btn.style.opacity = '1';
+          btn.style.cursor = 'pointer';
+          btn.innerHTML = originalText;
+        });
+      });
+    });
+  </script>
+
+</section>
